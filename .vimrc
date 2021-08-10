@@ -167,6 +167,17 @@ noremap <silent> <C-Right> :vertical resize -3<CR>
 noremap <silent> <C-Up> :resize +3<CR>
 noremap <silent> <C-Down> :resize -3<CR>
 
+" Keeping it centered
+" nnoremap n nzzzv
+" nnoremap N Nzzzv
+" nnoremap J mzJ`z
+
+" Undo Break Points
+" inoremap , ,<c-g>u
+" inoremap . .<c-g>u
+" inoremap ( (<c-g>u
+" inoremap { {<c-g>u
+
     "{{ Insert Mode Remaps  }}
 " Remap ESC to ii
 :imap ii <Esc>
@@ -196,8 +207,14 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => FzF Mappings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" find IN files with RipGrep
+" nnoremap <silent> <C-f> :Rg<CR>
+
 " find files with fzf
 nnoremap <silent> <C-f> :Files<CR>
+" find files with fzf
+" nnoremap <silent> <C-p> :Files<CR>
+
 " find files using gitignore with fzf
 nnoremap <silent> <C-g> :GFiles<CR>
 " find IN files with RipGrep
