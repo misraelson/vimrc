@@ -1,0 +1,360 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""               
+"               
+"               ██╗   ██╗██╗███╗   ███╗██████╗  ██████╗
+"               ██║   ██║██║████╗ ████║██╔══██╗██╔════╝
+"               ██║   ██║██║██╔████╔██║██████╔╝██║     
+"               ╚██╗ ██╔╝██║██║╚██╔╝██║██╔══██╗██║     
+"                ╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
+"                 ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
+"               
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =============================================================================
+"      FileName: vimrc
+"        Author: Matthew Israelson 
+"         Email: matthew.israelson@joist.com
+"       Created: 2021
+"       Version: 0.0.1
+"    LastChange: 01-04-2022
+" =============================================================================
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM CONFIG 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Don't try to be vi compatible
+set nocompatible
+" Helps force plugins to load correctly when it is turned back on below
+filetype off
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Vim Plug for Managing Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Place the following code in your .vimrc before plug#begin() call to automate downloading vim.plug and putting in autocmd directory
+" let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+" if empty(glob(data_dir . '/autoload/plug.vim'))
+"   silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs 
+"  		\	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+"   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+" endif
+
+" " Install vim-plug if not found
+" if empty(glob('~/.vim/autoload/plug.vim'))
+"   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+"     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" endif
+
+" " Run PlugInstall if there are missing plugins
+" autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+"   \| PlugInstall --sync | source $MYVIMRC
+" \| endif
+
+call plug#begin('~/.vim/plugged')
+"{{ The Basics }}
+	Plug 'glepnir/oceanic-material'
+	Plug 'tomasiser/vim-code-dark'
+	Plug 'sheerun/vim-polyglot'
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
+	Plug 'jiangmiao/auto-pairs'
+"{{ Syntax Highlighting and Colors }}
+	Plug 'mattn/emmet-vim' 																						" Emmet for vim
+"{{ COCompletion + FZFinder  }}
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}               		" Use release branch
+	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }           		
+	Plug 'junegunn/fzf.vim'
+	Plug 'mbbill/undotree'
+"{{ Tim Pope Plugins }}
+	Plug 'vim-ruby/vim-ruby'                                      		" Vim's Ruby runtime support
+	Plug 'tpope/vim-rails'                                        		" Ruby on Rails power tools
+	Plug 'tpope/vim-commentary'
+	Plug 'tpope/vim-endwise'
+	Plug 'tpope/vim-fugitive'
+	Plug 'tpope/vim-surround'                                     		" Change surrounding marks
+	Plug 'tpope/vim-unimpaired'                                   		" Move things around with [e & ]e commands
+	Plug 'tpope/vim-repeat'                                   				" use the . command after a plugin map 
+call plug#end()
+" :PlugInstall                                                  - installs plugins; append `!` to update or just :PlugUpdate
+" :PlugSearch foo                                               - searches for foo; append `!` to refresh local cache
+" :PlugClean                                                    - confirms removal of unused plugins; append `!` to auto-approve removal
+
+packadd! matchit 																										" added to enable % jumping for jsx
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General Settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+filetype plugin indent on 																					" For plugins to load correctly
+syntax enable on 																										" Turn on syntax highlighting
+set encoding=utf-8 																									" Encoding
+set t_Co=256                                                        " Set if term supports 256 colors.
+" set t_ut= 																												" to disable Background Color Erase.
+set path+=**                                              					" Searches current directory recursively.
+set nowrap
+set wildmenu					                                              " Display all matches when tab complete.
+set incsearch hlsearch smartcase                                    " Incremental search
+set cursorline                                                      " Highlight the current line
+set nolist 																													" eliminte eol and tab characters
+set foldenable                                                      " Enable Fold
+set foldcolumn=1
+set foldexpr=1                                                      " Shown line number after fold
+set formatoptions-=cro 																							" disable continuation of comments to the next line
+set hidden                                                          " Switch between buffers with unsaved change
+set nobackup                                                        " No auto backups
+set noswapfile                                                      " No swap
+set number relativenumber                                           " Display line numbers
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Text, tab and indent related
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set tabstop=2                                                       " One tab == two spaces.
+set shiftwidth=2                                                    " The tab width by using >> & <<
+set noexpandtab 																										" what does this do?
+set backspace=2 																										" make backspace work like most other programs
+set backspace=indent,eol,start
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Mouse Scrolling
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set mouse=a																													" Mouse scroll on 'all' screens
+set so:100 																													" Keep cursor center of the screen
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Splits and Tabbed Files
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set splitbelow splitright
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Other Stuff
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set undodir=~/.vim/undo/
+set undofile
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Colorscheme + Status Line
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set background=dark
+set colorcolumn=120
+colorscheme codedark
+
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme = 'codedark'
+
+set cmdheight=2   																									" Give more space for displaying messages.
+set noshowmode                                                      " Uncomment to prevent non-normal modes showing in powerline and below powerline.
+set showmatch                                                       " Show matching bracets (shortly jump to the other bracets)
+
+let g:user_emmet_leader_key=',' 																		" We’re replacing the <C-y> trigger for a simple ',' => now pressing ',,' will trigger emmet completion
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Normal Mode Remaps
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader = '\' 																								" Set the backslash as the leader key.
+
+nnoremap <silent> <leader>\ :nohlsearch<CR>
+" nnoremap <leader>u :UndoToggle<CR>
+nnoremap <leader>d :bd<CR>     																			" d to buffer delete
+nnoremap <leader>gi :G<CR>     																			" gi to goto Git
+nnoremap <leader>gp :G push<CR>     																" gi to goto Git
+" Window commands
+nnoremap <silent> <leader>q :bp\|bd #<CR> 													" q to close buffer window but not the split
+nnoremap <leader>s <C-w>s																						" s create horizantal split
+nnoremap <leader>c <C-w>c																						" c close split
+
+" map space-bar to trigger command mode
+nnoremap <Space> :
+" SHIFT-TAB enter new line above cursor
+nnoremap <S-tab> O<esc>j
+" Remap splits navigation to just CTRL + hjkl
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+" map Y to yank from cursor to end of line
+nnoremap Y y$
+nnoremap <F6> :bn<CR>
+nnoremap <F5> :bp<CR>
+
+" Keeping it centered
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap J mzJ`z
+
+" Undo Break Points
+" inoremap ( (<c-g>u
+" inoremap { {<c-g>u
+" inoremap < <c-g>u
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Insert Mode Remaps
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Remap ESC to ii
+inoremap ii <Esc>
+" CTRL-z undo
+inoremap <C-z> <C-o>
+" CTRL-a goto beginning of line
+inoremap <C-a> <ESC>I
+" CTRL-e goto end of line
+inoremap <C-e> <ESC>A
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Visual Mode Remaps
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+vnoremap ii <Esc>
+" Set <leader>h to go to last character and jump down to matching closing highlighting section
+vnoremap <leader>h g_%
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+vmap s <Plug>VSurround
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Auto Commands
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" auto command to return where you were in file when you closed it
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+endif
+
+" For some reason set formatoptions is being over-ridden by a plugin, this sets it back
+autocmd FileType * set formatoptions-=cro
+
+" display COMMAND instead of NORMAL in the lower left corner
+au CmdlineEnter * redraws
+
+" Emmet for js
+autocmd FileType html,css,javascript.jsx EmmetInstall
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => FzF Mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" search for occurence of a word in all files with RipGrep
+nnoremap <silent> <C-f> :Rg<CR>
+nnoremap <silent> <leader>f :Rg<CR>
+" find files with fzf
+nnoremap <silent> <C-p> :Files<CR>
+" find files using gitignore with fzf
+nnoremap <silent> <C-g> :GFiles<CR>
+nnoremap <silent> <leader>g :GFiles<CR>
+" find a buffer aka file thats open
+nnoremap <silent> <C-b> :Buffers<CR>
+nnoremap <silent> <leader>b :Buffers<CR>
+" search lines of current buffer
+nnoremap <silent> <space>/ :BLines<CR>
+nnoremap <silent> <leader>/ :BLines<CR>
+" With below FZF + ripgrep will not consider filename as a match in Vim
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => COC Auto-Completer
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time diagnostics appear/become resolved.
+if has("nvim-0.5.0") || has("patch-8.1.1564")
+	" Recently vim can merge signcolumn and number column into one
+	set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
+" Use <Tab> and <S-Tab> to navigate the completion list
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+vmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+vmap <leader>f  <Plug>(coc-format-selected)
+nmap <space>f  <Plug>(coc-format-selected)
+
+" Start multiple cursors session
+nmap <leader>w <Plug>(coc-cursors-word)
+xmap <silent> <C-d> <Plug>(coc-cursors-range)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+" autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" CoC extensions
+let g:coc_global_extensions = ['coc-tsserver', 'coc-solargraph']
+" command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Colors and Theming
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+hi CocCursorRange guibg=#b16286 guifg=#ebdbb2
+
+highlight NERDTreeClosable ctermfg=2
+highlight NERDTreeOpenable ctermfg=8
+ " highlight cursor line with color
+highlight CursorLine       ctermfg=none    ctermbg=238     cterm=none
+highlight CursorLineNr     ctermfg=111     ctermbg=none    cterm=none
+highlight ColorColumn      ctermfg=96      ctermbg=235     cterm=none
+" highlight Comment          ctermfg=black    ctermbg=lightblue    cterm=italic
+highlight Folded           ctermfg=103     ctermbg=234     cterm=none
+highlight FoldColumn       ctermfg=103     ctermbg=234     cterm=none
+" highlight LineNr           ctermfg=111   ctermbg=54    cterm=none
+" highlight DiffAdd          ctermfg=none    ctermbg=23      cterm=none
+" highlight DiffChange       ctermfg=none    ctermbg=56      cterm=none
+" highlight DiffDelete       ctermfg=168     ctermbg=96      cterm=none
+" highlight DiffText         ctermfg=0       ctermbg=80      cterm=none
+" highlight VertSplit        ctermfg=0    ctermbg=8       cterm=none
+" highlight Statement        ctermfg=2    ctermbg=none    cterm=none
+" highlight Directory        ctermfg=4    ctermbg=none    cterm=none
+" highlight StatusLine       ctermfg=7    ctermbg=8       cterm=none
+" highlight StatusLineNC     ctermfg=7    ctermbg=8       cterm=none
+" highlight Comment          ctermfg=4    ctermbg=none    cterm=italic
+" highlight Constant         ctermfg=12   ctermbg=none    cterm=none
+" highlight Special          ctermfg=4    ctermbg=none    cterm=none
+" highlight Identifier       ctermfg=6    ctermbg=none    cterm=none
+" highlight PreProc          ctermfg=5    ctermbg=none    cterm=none
+" highlight String           ctermfg=12   ctermbg=none    cterm=none
+" highlight Number           ctermfg=1    ctermbg=none    cterm=none
+" highlight Function         ctermfg=1    ctermbg=none    cterm=none
+" highlight WildMenu         ctermfg=0       ctermbg=80      cterm=none
+" highlight SignColumn       ctermfg=244     ctermbg=235     cterm=none
+" highlight Conceal          ctermfg=251     ctermbg=none    cterm=none
+" highlight SpellBad         ctermfg=168     ctermbg=none    cterm=underline
+" highlight SpellCap         ctermfg=80      ctermbg=none    cterm=underline
+" highlight SpellRare        ctermfg=121     ctermbg=none    cterm=underline
+" highlight SpellLocal       ctermfg=186     ctermbg=none    cterm=underline
+" highlight Pmenu            ctermfg=251     ctermbg=234     cterm=none
+" highlight PmenuSel         ctermfg=0       ctermbg=111     cterm=none
+" highlight PmenuSbar        ctermfg=206     ctermbg=235     cterm=none
+" highlight PmenuThumb       ctermfg=235     ctermbg=206     cterm=none
+" highlight TabLine          ctermfg=244     ctermbg=234     cterm=none
+" highlight TablineSel       ctermfg=0       ctermbg=247     cterm=none
+" highlight TablineFill      ctermfg=244     ctermbg=234     cterm=none
+" highlight Cursor           ctermfg=0       ctermbg=5       cterm=none
+" highlight htmlEndTag       ctermfg=114     ctermbg=none    cterm=none
+" highlight xmlEndTag        ctermfg=114     ctermbg=none    cterm=none
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => END OF CONFIG
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
