@@ -1,0 +1,259 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+"               ██╗   ██╗██╗███╗   ███╗██████╗  ██████╗
+"               ██║   ██║██║████╗ ████║██╔══██╗██╔════╝
+"               ██║   ██║██║██╔████╔██║██████╔╝██║
+"               ╚██╗ ██╔╝██║██║╚██╔╝██║██╔══██╗██║
+"                ╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
+"                 ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =============================================================================
+"      FileName: vimrc
+"        Author: Matthew Israelson
+"         Email: matthew.israelson@joist.com
+"       Created: 2024
+"       Version: 0.0.5
+"    LastChange: JAN-16-2024
+" =============================================================================
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM CONFIG FOR VIM 9
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('nvim')
+  set runtimepath+=~/.vim
+endif
+
+" Don't try to be vi compatible
+set nocompatible
+" Helps force plugins to load correctly when it is turned back on below
+filetype off
+
+let g:polyglot_disabled = ['markdown']
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Vim Plug for Managing Plugins (continued)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Place the following code in your .vimrc before plug#begin() call to automate downloading vim.plug and putting in autocmd directory
+" let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+" if empty(glob(data_dir . '/autoload/plug.vim'))
+"   silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs 
+"  		\	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+"   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+" endif
+
+" Install vim-plug if not found
+ if empty(glob('~/.vim/autoload/plug.vim'))
+   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+ endif
+
+" Run PlugInstall if there are missing plugins
+ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+   \| PlugInstall --sync | source $MYVIMRC
+ \| endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+call plug#begin('~/.vim/plugged')
+"{{ The Basics }}
+Plug 'glepnir/oceanic-material'
+Plug 'tomasiser/vim-code-dark'
+Plug 'sheerun/vim-polyglot'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'jiangmiao/auto-pairs'
+Plug 'mattn/emmet-vim'
+"{{ Syntax Highlighting and Colors }}
+Plug 'ap/vim-css-color'
+"{{ COCompletion + FZFinder  }}
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'jesseleite/vim-agriculture'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'antoinemadec/coc-fzf'
+Plug 'junegunn/vim-peekaboo'
+Plug 'mbbill/undotree'
+Plug 'kshenoy/vim-signature'
+"{{ Tim Pope Plugins }}
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'Matt-A-Bennett/vim-surround-funk'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-repeat'
+call plug#end()
+
+packadd! matchit
+
+" => General Settings
+filetype plugin indent on " For plugins to load correctly
+syntax enable on
+set encoding=utf-8
+set t_Co=256
+" set termguicolors
+set path+=**
+set re=0
+set nowrap
+set wildmenu
+set lazyredraw
+set matchtime=5
+set hlsearch
+set incsearch smartcase
+set cursorline
+set nolist
+set foldenable
+set foldcolumn=1
+set foldexpr=1
+set formatoptions-=cro
+set hidden
+set nobackup
+set noswapfile
+set number relativenumber
+set signcolumn=yes
+
+" => Text, tab and indent related
+set tabstop=2
+set shiftwidth=2
+set noexpandtab
+set backspace=2
+set autoindent
+
+" => Mouse Scrolling
+set mouse=a
+set so:100
+set nostartofline
+
+" => Splits and Tabbed Files
+set splitbelow splitright
+
+" => Other Stuff
+set undodir=~/.vim/undo/
+set undofile
+let g:netrw_fastbrowse = 0
+let g:peekaboo_window = 'split 50new'
+
+" => Colorscheme + Status Line
+set background=dark
+set colorcolumn=120
+colorscheme codedark
+" colorscheme oceanic_material
+
+let g:airline_theme = 'codedark'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+
+set cmdheight=1
+set noshowmode
+set showmatch
+set belloff=esc
+
+" => Normal Mode Remaps
+let mapleader = '\'
+nnoremap <Space> :
+nnoremap <silent> <leader>\ :nohlsearch<CR>
+nnoremap <silent> <leader>d :bd<CR>
+nnoremap <silent> <leader>gg :G<CR>
+nnoremap <leader>gp :G push<CR>
+nnoremap <silent> <leader>q :BufOnly<CR>
+nnoremap <leader>h Vg_%
+nnoremap <leader>s <C-w>s
+nnoremap <silent> <leader>c <C-w>c
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap Y y$
+nnoremap <F6> :bn<CR>
+nnoremap <F5> :bp<CR>
+" Keep cursor centered when going to next
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap J mzJ`z
+
+" => Insert Mode Remaps
+inoremap ii <Esc>
+inoremap <C-z> <C-o>
+inoremap <C-a> <ESC>I
+inoremap <C-e> <ESC>A
+
+" => Visual Mode Remaps
+vnoremap ii <Esc>
+vnoremap <leader>h g_%
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+vmap s <Plug>VSurround
+
+" => Auto Commands
+if has("autocmd")
+au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+endif
+
+autocmd FileType * set formatoptions-=cro
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" => UndoTree Mapping
+nnoremap <leader>u :UndotreeToggle<CR>
+
+" => FzF Mappings
+nnoremap <silent> <C-f> :Rg<CR>
+nnoremap <silent> <leader>f :Rg<CR>
+nnoremap <silent> <C-p> :Files<CR>
+nnoremap <silent> <C-g> :GFiles<CR>
+nnoremap <silent> <leader>g :GFiles<CR>
+nnoremap <silent> <C-b> :Buffers<CR>
+nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <space>/ :BLines<CR>
+nnoremap <silent> <leader>/ :BLines<CR>
+
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+
+" => COC Auto-Completer
+set shortmess+=c
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> K  <Plug>(coc-hover)
+nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>ca <Plug>(coc-codeaction)
+
+" => GitGutter Mapping
+let g:gitgutter_map_keys = 0
+nnoremap <leader>hs :GitGutterLineHighlightsToggle<CR>
+
+" => Convenience Mappings
+nnoremap <leader>o :update<CR>
+nnoremap <leader>x :qa!<CR>
+nnoremap <leader>w :w<CR>
+
+" => Language-Specific Mappings
+autocmd FileType javascript nnoremap <buffer> <leader>fr :CocCommand prettier.formatFile<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Colors and Theming
+" Range for multiple cursors
+highlight CocCursorRange   guibg=#3c3c3c   guifg=#dcdccc   ctermfg=64      ctermbg=238
+highlight CocHintFloat     guibg=NONE      guifg=#ff0000   ctermfg=none    ctermbg=none
+" highlight cursor line with color
+highlight CursorLine       guifg=NONE      guibg=#2b2b2b   ctermfg=none    ctermbg=238
+highlight CursorLineNr     guifg=#dcdccc   guibg=NONE      ctermfg=111     ctermbg=none
+highlight ColorColumn      guifg=#8ec07c   guibg=#1c1c1c   ctermfg=96      ctermbg=235
+" highlight Comment          guifg=#928374   guibg=#1c1c1c   ctermfg=black    ctermbg=lightblue    cterm=italic
+highlight Folded           guifg=#dcdccc   guibg=#2b2b2b   ctermfg=103     ctermbg=234
+highlight FoldColumn       guifg=#dcdccc   guibg=#2b2b2b   ctermfg=103     ctermbg=234
+" highlight LineNr           guifg=#dcdccc   guibg=#3c3c3c   ctermfg=111   ctermbg=54    cterm=none
+highlight DiffAdd          guifg=NONE      guibg=#4e4e4e   ctermfg=none    ctermbg=64
+highlight DiffChange       guifg=NONE      guibg=#5f5f5f   ctermfg=none    ctermbg=136
+highlight DiffDelete       guifg=#dcdccc   guibg=#5f5f5f   ctermfg=52     ctermbg=167
+highlight MatchParen       guifg=#3c3c3c   guibg=#af5f5f   ctermfg=darkblue  ctermbg=131   cterm=bold
